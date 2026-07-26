@@ -15,6 +15,22 @@ The decision not to expose the current UDP-based transport was made to reduce th
 likelyhood of abuse for existing servers. Thus, any server that wishes to allow custom
 clients is required to run the NWNX plugin.
 
+## How to use this repository
+
+This project serves two distinct purposes, and how you consume it depends on which
+one you need:
+
+- **As a Python library**: install from PyPI with
+  ``pip install nwn-message`` or ``uv add nwn-message``. You get the full message
+  definitions, encoding/decoding layer, and async websocket client. This is the right
+  choice for Python bots, custom clients, and server-side tooling.
+
+- **As a codegen schema**: the same message definitions can generate bindings for
+  other languages (Godot, TypeScript). Because codegen requires the full source tree
+  and the running codegen script, it is excluded from the PyPI package. Clone the
+  repository from GitHub and see "Usage in other languages" below. This may change in
+  the future.
+
 ## Requirements
 
 - Python 3.14+
