@@ -1,0 +1,29 @@
+[project]
+name = "nwn-message"
+version = "0.1.0"
+description = "A Python library for Neverwinter Nights networking."
+readme = "README.md"
+license = "GPL-3.0-or-later"
+authors = [
+    { name = "Bernhard Stoeckner", email = "n@e-ix.net" }
+]
+requires-python = ">=3.14"
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Games/Entertainment :: Role-Playing",
+]
+dependencies = [
+    "blinker>=1.9.0",
+    "nwn>=0.0.22",
+    "websockets>=16.0",
+]
+
+[project.urls]
+"Source Code" = "https://github.com/niv/nwn-message.py"
+"Issue Tracker" = "https://github.com/niv/nwn-message.py/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

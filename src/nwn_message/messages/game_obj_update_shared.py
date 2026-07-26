@@ -1,0 +1,51 @@
+from dataclasses import dataclass
+from enum import IntFlag
+from typing import Annotated
+
+from .. import message as m
+from ..message._annotation import IfTwoDA
+from ..net_types import VisualTransformData
+
+
+@dataclass(kw_only=True)
+class VisualEffectUpdate:
+    change_type: m.Byte
+    effect_id: m.Word
+    creator_id: Annotated[
+        m.ObjectId,
+        IfTwoDA("effect_id", "visualeffects", "Type_FD", {"P", "B"}),
+    ]
+    body_node: Annotated[
+        m.Byte,
+        IfTwoDA("effect_id", "visualeffects", "Type_FD", {"P", "B"}),
+    ]
+    vt: VisualTransformData
+
+
+class GameObjUpdateType(IntFlag):
+    OBJECT_POSITION_FLAG = 0x00000001
+    OBJECT_ORIENTATION_FLAG = 0x00000002
+    OBJECT_ANIMATION_FLAG = 0x00000004
+    OBJECT_VISUAL_EFFECT_FLAG = 0x00000008
+    OBJECT_TRAPS_AND_LOCKS_FLAG = 0x00000010
+    OBJECT_PORTRAIT_FLAG = 0x00000020
+    OBJECT_NAME_FLAG = 0x00080000
+    OBJECT_VISUAL_TRANSFORM_FLAG = 0x00100000
+    OBJECT_MATERIAL_SHADER_PARAMETERS_FLAG = 0x00200000
+    OBJECT_UI_FEEDBACK_FLAG = 0x00400000
+    OBJECT_TEXTURES_FLAG = 0x00800000
+    OBJECT_ANIMATION_REPLACE_FLAG = 0x01000000
+
+    CREATURE_AISTATE_FLAG = 0x00000040
+    CREATURE_PATH_CUT_FLAG = 0x00000080
+    CREATURE_MOVE_RATE_FLAG = 0x00000100
+    CREATURE_PARTYMEMBER_POSITION_FLAG = 0x00000200
+    CREATURE_HIT_POINTS_FLAG = 0x00000400
+    CREATURE_DAMAGE_LEVEL_FLAG = 0x00000800
+    CREATURE_PRIMARY_ATTRIBUTES_FLAG = 0x00001000
+    CREATURE_MASTER_AND_ASSOCIATES_FLAG = 0x00002000
+    CREATURE_PC_PARTY_STATUS_FLAG = 0x00004000
+    CREATURE_PERCEPTION_TO_PLAYER_FLAG = 0x00008000
+    CREATURE_NEWPARTYMEMBER_FLAG = 0x00010000
+    CREATURE_ASSOCIATE_STATE_FLAG = 0x00020000
+    CREATURE_PARTYMEMBER_AREA_FLAG = 0x00040000
