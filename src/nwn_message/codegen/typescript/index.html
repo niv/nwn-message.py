@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+        <title>NWN Message Test</title>
+        <style>
+            body {
+                font-family: monospace;
+                background: #111;
+                color: #0f0;
+                padding: 1em;
+            }
+            #log {
+                white-space: pre-wrap;
+                overflow-y: auto;
+                height: 70vh;
+                border: 1px solid #333;
+                padding: 0.5em;
+            }
+            input,
+            button {
+                font-family: inherit;
+                font-size: 1em;
+                margin: 0.25em;
+            }
+            .row {
+                display: flex;
+                gap: 1em;
+                align-items: center;
+                margin-bottom: 0.5em;
+            }
+            label {
+                min-width: 8em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>NWN WebSocket Client</h1>
+
+        <div class="row">
+            <label>Host:</label>
+            <input id="host" value="localhost" />
+            <label>Port:</label>
+            <input id="port" value="5121" style="width: 6em" />
+        </div>
+        <div class="row">
+            <label>Player name:</label>
+            <input id="name" value="bot" />
+        </div>
+        <div class="row">
+            <label>CD Key:</label>
+            <input
+                id="cdkey"
+                value=""
+                style="width: 30em"
+                placeholder="ABCDABCD-ABCDABCD"
+            />
+        </div>
+        <div>
+            <button id="connectBtn">Connect</button>
+            <button id="disconnectBtn" disabled>Disconnect</button>
+        </div>
+
+        <hr />
+        <div id="log">Ready. Enter your CD key and click Connect.</div>
+
+        <script type="module">
+            import { NwnClient, registerMessage } from "./bundle.js";
+            import { Reader } from "./bundle.js";
+
+            const log = document.getElementById("log");
+            const hostEl = document.getElementById("host");
+            const portEl = document.getElementById("port");
+            const nameEl = document.getElementById("name");
+            const cdkeyEl = document.getElementById("cdkey");
+            const connectBtn = document.getElementById("connectBtn");
+            const disconnectBtn = document.getElementById("disconnectBtn");
+
+            function appendLog(msg) {
+                const time = new Date().toISOString().slice(11, 19);
+                log.textContent += `[${time}] ${msg}\n`;
+                log.scrollTop = log.scrollHeight;
+            }
+
+            let client = null;
+
+            async function onConnect() {
+                const host = hostEl.value || "localhost";
+                const port = parseInt(portEl.value) || 5121;
+                const name = nameEl.value || "bot";
+                const cdkey = cdkeyEl.value || "";
+
+                if (!cdkey) {
+                    appendLog("ERROR: CD Key is required");
+                    return;
+                }
+
+                client = new NwnClient(host, port, {
+                    playerName: name,
+                    cdKey: cdkey,
+                });
+
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+                appendLog(`Connecting to ${host}:${port}...`);
+
+                try {
+                    await client.run();
+                    appendLog("Connected and authenticated!");
+
+                    // Example: register a wildcard handler for all messages
+                    // client.on(0x01, -1, (reader) => {
+                    //   appendLog("Got server status message");
+                    // });
+
+                    // Send ServerStatusRequest (0x01/0x00 C2S) after auth
+                    // This requires importing the generated message writers
+                    // For now, log that we're ready
+                    appendLog("Ready to send/receive messages");
+                } catch (err) {
+                    appendLog(`ERROR: ${err.message || err}`);
+                    connectBtn.disabled = false;
+                    disconnectBtn.disabled = true;
+                    client = null;
+                }
+            }
+
+            function onDisconnect() {
+                if (client) {
+                    client = null;
+                    connectBtn.disabled = false;
+                    disconnectBtn.disabled = true;
+                    appendLog("Disconnected");
+                }
+            }
+
+            connectBtn.addEventListener("click", onConnect);
+            disconnectBtn.addEventListener("click", onDisconnect);
+        </script>
+    </body>
+</html>

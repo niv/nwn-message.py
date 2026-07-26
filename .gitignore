@@ -6,3 +6,4 @@ dist/
 wheels/
 *.egg-info
 .venv
+/src/nwn_message/codegen/typescript/node_modules
