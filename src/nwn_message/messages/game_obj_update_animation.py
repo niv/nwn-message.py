@@ -3,9 +3,9 @@ Animation-related dataclasses for the GameObjUpdate 'U' (update) sub-message.
 
 The ANIMATION_FLAG data is split across three non-contiguous reads,
 interleaved with other flag reads:
-  Block 1: anim_speed (float)
-  Block 2: AnimTypeData  (animation type + optional attack/cast payloads)
-  Block 3: AnimPathData  (client path number + optional waypoints)
+- Block 1: anim_speed (float)
+- Block 2: AnimTypeData  (animation type + optional attack/cast payloads)
+- Block 3: AnimPathData  (client path number + optional waypoints)
 Between block 2 and block 3, the visual-effect flag data is read.
 """
 
