@@ -1,0 +1,62 @@
+name: Docs
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4
+        with:
+          enable-cache: true
+
+      - name: Build docs
+        run: |
+          uv run pydoctor \
+            --html-out _gh-pages/ \
+            --theme readthedocs \
+            --docformat=google \
+            --warnings-as-errors \
+            --project-name "nwn-message" \
+            --project-version "$(grep -oP '(?<=version = ")[^"]*' pyproject.toml)" \
+            --project-url "https://pypi.org/project/nwn-message/" \
+            --html-viewsource-base "https://github.com/niv/nwn-message.py/blob/${{ github.sha }}/" \
+            src/nwn_message
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _gh-pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

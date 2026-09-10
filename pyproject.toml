@@ -20,6 +20,9 @@ dependencies = [
     "websockets>=16.0",
 ]
 
+[dependency-groups]
+dev = ["pydoctor>=24.11.2"]
+
 [project.urls]
 "Source Code" = "https://github.com/niv/nwn-message.py"
 "Issue Tracker" = "https://github.com/niv/nwn-message.py/issues"
