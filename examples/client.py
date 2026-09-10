@@ -72,11 +72,14 @@ def get_user_cdkey() -> CDKey:
     return CDKey(cfg.get("NWN1", "YourKey"))
 
 
-# Pick a vault with at least one character
-# Will have to turn off or firewall master auth, or:
+# This "client" auto-logins with the first character presented.
+# So pick a vault with at least one character.
+# By default, it loads the CDKey from your user dir, using nwn.py.
+cdkey = get_user_cdkey()
+# You can also generate a fake one for testing, but then you'll have to firewall nwserver from
+# checking with the master server.
 # cdkey = CDKey("a-b-c-d-e")
 # cdkey = CDKey.generate("ABCDABCD")
-cdkey = get_user_cdkey()
 
 context = MyContext()
 

@@ -77,11 +77,9 @@ python builtin logging getters to mute the subsystems you don't care about.
 
 ## Usage in other languages
 
-Codegen to other languages is very, very preliminary (insert Jack Sparrow meme).
-Targets currently include Godot and TypeScript. The generator is deliberately not exposed
-through the package or public API, as it has been vibecoded only to serve a singular
-purpose: The generated code was tested in anger in the Godot-based
-[Glyph](https://github.com/niv/glyph) client (to be released soon-ish).
+Codegen to other languages is preliminary. Targets currently include Godot and TypeScript.
+The generator is deliberately not exposed through the package or public API until such
+time that it is stable and well-tested.
 
 To invoke the codegen, clone the repository (codegen is currently excluded from the PyPI
 package) and run `uv run run_codegen.py --help`. Please note that the codegen command may
