@@ -275,11 +275,11 @@ class GameObjUpdateObjListUpdateCreature(GameObjUpdateObjListUpdate):
     hilite_r: Annotated[m.Float, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
     hilite_g: Annotated[m.Float, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
     hilite_b: Annotated[m.Float, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
-    cursor: Annotated[m.Word, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
+    cursor: Annotated[m.Int, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
 
     useable: Annotated[m.Bool, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
-    discovery_mask: Annotated[m.Word, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
-    bubble_type: Annotated[m.Word, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
+    discovery_mask: Annotated[m.Int, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
+    bubble_type: Annotated[m.Int, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
     bubble_text: Annotated[m.String, m.IfFlag("flags", F.OBJECT_UI_FEEDBACK_FLAG)]
 
     textures: Annotated[
